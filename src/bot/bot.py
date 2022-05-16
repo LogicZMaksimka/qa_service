@@ -33,14 +33,7 @@ logger = logging.getLogger(__name__)
 def generate_response(context: Context, actor: Actor, *args, **kwargs) -> str:
     try:
         question = context.last_request
-
-        if not re.match(r"^[a-zA-Z0-9\s?]+$", question):
-            e = "Error: incorrect question. Question can contain only english letters, numbers and '?'"
-            logger.warning(e)
-            return e
-
         res = requests.post(URL, json={"question": question})
-        
         answer = res.json()["answer"]
     except Exception as e:
         logger.exception(e)
